@@ -7,10 +7,12 @@ from sensor_msgs.msg import Joy
 GPIO.setwarnings(True)
 GPIO.setmode(GPIO.BCM)
 
-motor1pin1 = 5
-motor1pin2 = 6
-motor2pin1 = 13
-motor2pin2 = 19
+motor1pin1 = 21
+motor1pin2 = 26
+motor2pin1 = 6
+motor2pin2 = 5
+enA = 12
+enB = 13
 
 def init():
     GPIO.setup(motor1pin1, GPIO.OUT, initial=GPIO.LOW)
