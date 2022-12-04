@@ -16,14 +16,16 @@ ros::NodeHandle nh;
 int motor_speed = 100;
 int motor_delay = 100;
 
-void dPadMessageCb(const robotcar::DPad& dpad_msg){
+void dPadMessageCb(const robotcar::DPad &dpad_msg)
+{
   motor1.setSpeed(motor_speed);
   motor2.setSpeed(motor_speed);
   motor3.setSpeed(motor_speed);
   motor4.setSpeed(motor_speed);
 
   // forward
-  if (dpad_msg.data[0]) {
+  if (dpad_msg.data[0])
+  {
     motor1.run(FORWARD);
     motor2.run(FORWARD);
     motor3.run(FORWARD);
@@ -31,13 +33,17 @@ void dPadMessageCb(const robotcar::DPad& dpad_msg){
   }
 
   // right
-  if (dpad_msg.data[1]) {
+  if (dpad_msg.data[1])
+  {
     motor1.run(FORWARD);
-    motor4.run(FORWARD);
+    motor2.run(FORWARD);
+    motor3.run(FORWARD);
+    motor4.run(RELEASE);
   }
-  
+
   // backward
-  if (dpad_msg.data[2]) {
+  if (dpad_msg.data[2])
+  {
     motor1.run(BACKWARD);
     motor2.run(BACKWARD);
     motor3.run(BACKWARD);
@@ -45,23 +51,29 @@ void dPadMessageCb(const robotcar::DPad& dpad_msg){
   }
 
   // left
-  if (dpad_msg.data[3]) {
+  if (dpad_msg.data[3])
+  {
+    motor1.run(RELEASE);
     motor2.run(FORWARD);
     motor3.run(FORWARD);
+    motor4.run(FORWARD);
   }
 
   // accelerate
-  if (dpad_msg.data[4] && motor_speed <= 250){
+  if (dpad_msg.data[4] && motor_speed <= 250)
+  {
     motor_speed += 5;
   }
 
   // decelerate
-  if (dpad_msg.data[5] && motor_speed >= 5){
+  if (dpad_msg.data[5] && motor_speed >= 5)
+  {
     motor_speed -= 5;
   }
 
   // brake
-  if (dpad_msg.data[6]){
+  if (dpad_msg.data[6])
+  {
     motor1.run(RELEASE);
     motor2.run(RELEASE);
     motor3.run(RELEASE);
@@ -69,12 +81,12 @@ void dPadMessageCb(const robotcar::DPad& dpad_msg){
   }
 }
 
-void emptyMessageCb(const std_msgs::Empty& empty_msg){
+void emptyMessageCb(const std_msgs::Empty &empty_msg)
+{
   digitalWrite(LED_BUILTIN, HIGH - digitalRead(LED_BUILTIN));
 }
 
 ros::Subscriber<robotcar::DPad> dPadSubscriber("dpad", &dPadMessageCb);
-
 
 std_msgs::Int32 left_tick;
 std_msgs::Int32 right_tick;
@@ -86,7 +98,8 @@ int led_delay = 2000;
 
 // int pins[6] = {A0, A1, A2, A3, A4, A5};
 
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
   nh.initNode();
   nh.advertise(leftTickPublisher);
@@ -96,7 +109,8 @@ void setup() {
   pinMode(A5, INPUT);
 }
 
-void loop() {
+void loop()
+{
   // for (int i = 0; i < 6; i++){
   //   digitalWrite(pins[i], HIGH);
   // }
