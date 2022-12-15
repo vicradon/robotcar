@@ -3,7 +3,6 @@
 #include <std_msgs/String.h>
 #include <geometry_msgs/Twist.h>
 #include <robotcar/DPad.h>
-#include <std_msgs/Empty.h>
 #include <std_msgs/Int32.h>
 
 AF_DCMotor motor1(1);
@@ -81,11 +80,6 @@ void dPadMessageCb(const robotcar::DPad &dpad_msg)
   }
 }
 
-void emptyMessageCb(const std_msgs::Empty &empty_msg)
-{
-  digitalWrite(LED_BUILTIN, HIGH - digitalRead(LED_BUILTIN));
-}
-
 ros::Subscriber<robotcar::DPad> dPadSubscriber("dpad", &dPadMessageCb);
 
 std_msgs::Int32 left_tick;
@@ -96,11 +90,8 @@ ros::Publisher rightTickPublisher("right_tick", &right_tick);
 
 int led_delay = 2000;
 
-// int pins[6] = {A0, A1, A2, A3, A4, A5};
-
 void setup()
 {
-  // put your setup code here, to run once:
   nh.initNode();
   nh.advertise(leftTickPublisher);
   nh.advertise(rightTickPublisher);
@@ -111,10 +102,6 @@ void setup()
 
 void loop()
 {
-  // for (int i = 0; i < 6; i++){
-  //   digitalWrite(pins[i], HIGH);
-  // }
-
   left_tick.data = digitalRead(A6);
   right_tick.data = digitalRead(A0);
 
